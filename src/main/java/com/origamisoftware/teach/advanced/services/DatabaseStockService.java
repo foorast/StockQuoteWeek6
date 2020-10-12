@@ -22,7 +22,7 @@ import java.util.List;
  * An implementation of the StockService interface that gets
  * stock data from a database.
  */
-class DatabaseStockService implements StockService {
+public class DatabaseStockService implements StockService {
 
     /**
      * Return the current price for a share of stock  for the given symbol
@@ -58,7 +58,10 @@ class DatabaseStockService implements StockService {
         if (stockQuotes.isEmpty()) {
             throw new StockServiceException("There is no stock data for:" + symbol);
         }
-        return stockQuotes.get(0);
+        if (!stockQuotes.isEmpty()) {
+            return stockQuotes.get(0);
+        }
+        return null;
     }
 
     /**

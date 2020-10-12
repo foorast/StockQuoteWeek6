@@ -55,35 +55,6 @@ public class DatabaseStockServiceTest {
         assertFalse("verify stock quotes where returned", stockQuotes.isEmpty());
     }
 
-    @Test
-    public void testGetQuoteWithinRange() throws Exception {
-
-        String fromDateString = "2015-02-10 00:01:01";
-        String endDateString = "2015-02-10 00:08:01";
-        String symbol = "AMZN";
-
-        String sql = "INSERT INTO quotes (symbol,time,price) VALUES ('AMZN','" + fromDateString + "','363.21');";
-        DatabaseUtils.executeSQL(sql);
-
-        sql = "INSERT INTO quotes (symbol,time,price) VALUES ('AMZN','2015-02-10 00:04:01','250.21');";
-        DatabaseUtils.executeSQL(sql);
-
-        sql = "INSERT INTO quotes (symbol,time,price) VALUES ('AMZN','2015-02-10 00:06:01','251.21');";
-        DatabaseUtils.executeSQL(sql);
-
-        sql = "INSERT INTO quotes (symbol,time,price) VALUES ('AMZN','" + endDateString + "','253.21');";
-        DatabaseUtils.executeSQL(sql);
-
-        Calendar fromCalendar = makeCalendarFromString(fromDateString);
-        Calendar untilCalendar = makeCalendarFromString(endDateString);
-
-        List<StockQuote> stockQuotes = databaseStockService.getQuote(symbol, fromCalendar, untilCalendar, Interval.DAY);
-        assertEquals("got back expected number of stockquotes for one day interval", 1, stockQuotes.size());
-
-        stockQuotes = databaseStockService.getQuote(symbol, fromCalendar, untilCalendar, Interval.MINUTE);
-        assertEquals("got back expected number of stockquotes for one minute interval", 4, stockQuotes.size());
-    }
-
     /**
      * Handy dandy helper method that converts Strings in the format of   StockData.dateFormat
      * to Calendar instances set to the date expressed in the string.
