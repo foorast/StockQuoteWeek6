@@ -19,6 +19,10 @@ public class StockQuoteTest {
     private String symbol;
     private StockQuote stockQuote;
 
+    public static StockQuote createQuote(){
+        return new StockQuote(new BigDecimal(100), Calendar.getInstance().getTime(), "APPL");
+    }
+
     @Before
     public void setUp() {
         price = new BigDecimal(100);
